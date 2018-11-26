@@ -3,3 +3,29 @@ package main
 import (
 	"github.com/danryan/go-device42"
 )
+
+func main() {
+	r := bufio.NewReader(os.Stdin)
+	fmt.Print("Device42 Username: ")
+	username, _ := r.ReadString('\n')
+
+	fmt.Print("Device42 Password: ")
+	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin))
+	password := string(bytePassword)
+
+	tp := device42.BasicAuthTransport{
+		Username: strings.TrimSpace(username),
+		Password: strings.TrimSpace(password),
+	}
+
+	client := device42.NewClient(tp.Client())
+	ctx := context.Background()
+	user, _, err := client.Users.Get(ctx, "")
+
+	devices, _, err = client.Devices.Get(ctx, "")
+	
+	if err != nil {
+		fmt.Printf("\nerror: %v\n", err)
+		return
+	}
+}
