@@ -1,6 +1,15 @@
 package main
 
 import (
+	"bufio"
+	"context"
+	"fmt"
+	"os"
+	"strings"
+	"syscall"
+
+	"github.com/davecgh/go-spew/spew"
+	"golang.org/x/crypto/ssh/terminal"
 	"github.com/danryan/go-device42"
 )
 
@@ -20,12 +29,12 @@ func main() {
 
 	client := device42.NewClient(tp.Client())
 	ctx := context.Background()
-	user, _, err := client.Users.Get(ctx, "")
+	devices, _, err := client.Devices.Get(ctx, "")
 
-	devices, _, err = client.Devices.Get(ctx, "")
-	
 	if err != nil {
 		fmt.Printf("\nerror: %v\n", err)
 		return
 	}
+
+	spew.Dump(devices)
 }
